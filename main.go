@@ -1,31 +1,18 @@
 package main
 
 import (
-	"context"
-	"os"
-	"os/signal"
+	"fmt"
 	"sync"
-	"syscall"
 	"time"
 
-	"ghe.corp.yahoo.co.jp/amasuda/mimir/di"
+	"github.com/cake-fuka/steam-buddy-go/di"
 )
 
 func main() {
-	ctx, cancel := context.WithCancel(context.Background())
-
-	sig := make(chan os.Signal, 10)
-	signal.Notify(sig, syscall.SIGINT, syscall.SIGTERM, syscall.SIGHUP)
-	go func() {
-		defer close(sig)
-		<-sig
-		cancel()
-	}()
-
 	dc := di.NewContainer()
 
 	// Initialize the components
-	exporterServer := dc.ExporterServer()
+	s := dc.Service()
 
 	var wg sync.WaitGroup
 
@@ -34,6 +21,11 @@ func main() {
 		defer wg.Done()
 		for range time.Tick(10 * time.Second) {
 			// steamを見に行く処理のservice
+			err := s.ObservSteam()
+			if err != nil {
+				fmt.Errorf("困った")
+			}
+			fmt.Println("steam check")
 		}
 	}()
 
@@ -41,6 +33,7 @@ func main() {
 	go func() {
 		defer wg.Done()
 		// healthのmetrics endpoint
+		fmt.Println("health check standby")
 	}()
 
 	wg.Wait()
