@@ -5,5 +5,5 @@ type SlackRepository interface {
 }
 
 type SteamRepository interface {
-	GetState(cmd []string) (string, error)
+	GetState() ([]string, error)
 }

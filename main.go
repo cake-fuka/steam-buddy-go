@@ -25,7 +25,6 @@ func main() {
 			if err != nil {
 				fmt.Errorf("困った")
 			}
-			fmt.Println("steam check")
 		}
 	}()
 
