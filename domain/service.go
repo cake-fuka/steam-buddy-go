@@ -1,27 +1,21 @@
 package domain
 
-import (
-	"fmt"
-)
-
 type Service interface {
 	ObservSteam() error
 }
 
-func NewService(slackToken, slackID string, steam SteamRepository) *service {
+func NewService(steam SteamRepository, slack SlackRepository) *service {
 	return &service{
-		slackToken: slackToken,
-		slackID:    slackID,
-		steam:      steam,
+		steam: steam,
+		slack: slack,
 	}
 }
 
 var gameID string
 
 type service struct {
-	slackToken string
-	slackID    string
-	steam      SteamRepository
+	steam SteamRepository
+	slack SlackRepository
 }
 
 func (s *service) ObservSteam() error {
@@ -38,14 +32,20 @@ func (s *service) ObservSteam() error {
 			return nil
 		}
 		//今はゲームしている
-		fmt.Println(gameData[2] + " started a game「" + gameData[1] + "」.")
+		err := s.slack.PostMessage(gameData[2] + " started a game " + gameData[1] + ".")
+		if err != nil {
+			return err
+		}
 		gameID = gameData[0]
 		return nil
 	}
 	// 前はゲームしていた
 	// 今はゲームしていない
 	if gameData[0] == "" {
-		fmt.Println(gameData[2] + " finished a game.")
+		s.slack.PostMessage(gameData[2] + " finished a game.")
+		if err != nil {
+			return err
+		}
 		gameID = ""
 		return nil
 	}
@@ -54,7 +54,10 @@ func (s *service) ObservSteam() error {
 		return nil
 	}
 	// 今は別のゲームをしている
-	fmt.Println("changed the game that " + gameData[2] + " has started to「" + gameData[1] + "」.")
+	s.slack.PostMessage("changed the game that " + gameData[2] + " has started to " + gameData[1] + ".")
+	if err != nil {
+		return err
+	}
 	gameID = gameData[0]
 	return nil
 }

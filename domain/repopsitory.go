@@ -1,7 +1,7 @@
 package domain
 
 type SlackRepository interface {
-	PostMessage(message []string) (error)
+	PostMessage(message string) error
 }
 
 type SteamRepository interface {

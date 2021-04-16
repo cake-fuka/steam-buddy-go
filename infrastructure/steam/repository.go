@@ -7,22 +7,22 @@ import (
 )
 
 type steamRepository struct {
-	steamToken string
-	steamID    string
+	token string
+	id    string
 }
 
-func NewSteamRepository(steamToken, steamID string) *steamRepository {
+func NewSteamRepository(token, id string) *steamRepository {
 	return &steamRepository{
-		steamToken: steamToken,
-		steamID:    steamID,
+		token: token,
+		id:    id,
 	}
 }
 
-func (r *steamRepository) GetState() ([]string, error) {
+func (steam *steamRepository) GetState() ([]string, error) {
 	var data GameData
 
 	baseURL := "https://api.steampowered.com/ISteamUser/GetPlayerSummaries/v0002/?"
-	url := baseURL + "key=" + r.steamToken + "&steamids=" + r.steamID
+	url := baseURL + "key=" + steam.token + "&steamids=" + steam.id
 
 	req, err := http.NewRequest("GET", url, nil)
 	if err != nil {
