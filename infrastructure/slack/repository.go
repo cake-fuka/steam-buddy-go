@@ -20,7 +20,7 @@ func NewSlackRepository(token, id string) *slackRepository {
 func (slack *slackRepository) PostMessage(message string) error {
 	baseURL := "https://slack.com/api/chat.postMessage?channel="
 	message = strings.Replace(message, " ", "%20", -1)
-	URL := baseURL + slack.id + "&text=<!here>" + message + "'&pretty=1"
+	URL := baseURL + slack.id + "&text=" + message + "'&pretty=1"
 
 	client := &http.Client{}
 	req, err := http.NewRequest("POST", URL, nil)
