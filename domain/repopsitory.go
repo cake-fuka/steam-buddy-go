@@ -6,4 +6,5 @@ type SlackRepository interface {
 
 type SteamRepository interface {
 	GetState() ([]string, error)
+	GetRecentlyPlaedGames(count int) ([][]string, error)
 }

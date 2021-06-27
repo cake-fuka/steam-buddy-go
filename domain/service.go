@@ -1,7 +1,10 @@
 package domain
 
+import "fmt"
+
 type Service interface {
-	ObservSteam() error
+	RecentCheck() error
+	WeeklyCheck() error
 }
 
 func NewService(steam SteamRepository, slack SlackRepository) *service {
@@ -18,7 +21,7 @@ type service struct {
 	slack SlackRepository
 }
 
-func (s *service) ObservSteam() error {
+func (s *service) RecentCheck() error {
 	// gameData [0]id [1]game名 [2]user名
 	gameData, err := s.steam.GetState()
 	if err != nil {
@@ -59,5 +62,17 @@ func (s *service) ObservSteam() error {
 		return err
 	}
 	gameID = gameData[0]
+	return nil
+}
+
+func (s *service) WeeklyCheck() error {
+	// gameData [0]id [1]game名 [2]user名
+	gameData, err := s.steam.GetRecentlyPlaedGames(5)
+	if err != nil {
+		return err
+	}
+
+	fmt.Println(gameData)
+
 	return nil
 }

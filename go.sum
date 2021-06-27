@@ -1,2 +1,5 @@
 github.com/cake-fuka/steam-buddy-go v0.0.0-20210415161132-43d3366d44ff h1:k8GGTT16CgXhDrfSoYMiG1d+gQgcbtDCFfKUzchMems=
 github.com/cake-fuka/steam-buddy-go v0.0.0-20210415161132-43d3366d44ff/go.mod h1:6sEqijmiz0X/kNld7EGAEw7+u2BnFRGMZNQpZsJL4Eg=
+github.com/robfig/cron v1.2.0 h1:ZjScXvvxeQ63Dbyxy76Fj3AT3Ut0aKsyd2/tl3DTMuQ=
+github.com/robfig/cron/v3 v3.0.1 h1:WdRxkvbJztn8LMz/QEvLN5sBU+xKpSqwwUO1Pjr4qDs=
+github.com/robfig/cron/v3 v3.0.1/go.mod h1:eQICP3HwyT7UooqI/z+Ov+PtYAWygg1TEWWzGIFLtro=
